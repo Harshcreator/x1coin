@@ -4,21 +4,21 @@ import { ethers } from "hardhat";
 async function main() {
   const [deployer] = await ethers.getSigners();
 
-  // 1. Deploy X1Coin
+  // Deploy X1Coin
   const X1Coin = await ethers.getContractFactory("X1Coin");
   const token = await X1Coin.deploy();
   
-  // 2. Deploy TokenDistributor
+  // Deploy TokenDistributor
   const TokenDistributor = await ethers.getContractFactory("TokenDistributor");
   const distributor = await TokenDistributor.deploy(await token.getAddress());
 
-  // 3. Approve the distributor to spend deployer's tokens
+  // Approve the distributor to spend deployer's tokens
   await token.approve(
     await distributor.getAddress(),
     ethers.parseUnits("1000000000", 18) // Approve 1B tokens
   );
 
-  // 4. Cast to proper type and call distribute()
+  // Cast to proper type and call distribute()
   const distributorWithSigner = await ethers.getContractAt(
     "TokenDistributor",
     await distributor.getAddress(),
@@ -26,7 +26,7 @@ async function main() {
   );
   await distributorWithSigner.distribute();
 
-  // 5. Deploy Staking
+  // Deploy Staking
   const Staking = await ethers.getContractFactory("Staking");
   const staking = await Staking.deploy(await token.getAddress());
 
