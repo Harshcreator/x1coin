@@ -28,7 +28,7 @@ describe("Token Distribution", () => {
       owner
     );
 
-    // 1. Check initial balances
+    // Check initial balances
     const initialOwnerBalance = await token.balanceOf(owner.address);
     const initialVestingBalance = await token.balanceOf(vestingWallet.getAddress());
     console.log("Initial Owner Balance:", initialOwnerBalance.toString());
@@ -37,7 +37,7 @@ describe("Token Distribution", () => {
     expect(initialOwnerBalance).to.equal(TOTAL_SUPPLY - TEAM_ALLOCATION); // 700M
     expect(initialVestingBalance).to.equal(TEAM_ALLOCATION); // 300
   
-   // 2. Attempt early release (no effect)
+   // Attempt early release (no effect)
    await vestingWallet.getFunction("release(address)")(await token.getAddress());
    const postEarlyReleaseOwnerBalance = await token.balanceOf(owner.address);
    console.log("Post Early Release Owner Balance:", postEarlyReleaseOwnerBalance.toString());
