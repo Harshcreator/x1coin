@@ -12,12 +12,11 @@ contract TokenDistributor {
     constructor(address _tokenAddress) {
         token = X1Coin(_tokenAddress);
         owner = msg.sender;
-        // Deploy vesting wallet for the team
         teamVestingWallet = address(new VestingWallet(
-            msg.sender,                             // beneficiary
-            uint64(block.timestamp + 180 days),     // start time (now + 6 months)
-            0                                       // duration (0 means cliff)
-        ));
+            msg.sender,                            
+            uint64(block.timestamp + 180 days),    
+            365 days                               
+        )); 
     }
 
     function distribute() external {
@@ -30,4 +29,4 @@ contract TokenDistributor {
         // Community Development (20%)
         token.transferFrom(owner, owner, 200_000_000 * 10 ** token.decimals());
     }
-}
+}   
