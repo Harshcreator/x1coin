@@ -12,7 +12,7 @@ describe("Staking", () => {
     const Staking = await ethers.getContractFactory("Staking");
     const staking = await Staking.deploy(await token.getAddress());
 
-    // Fund the staking contract with rewards (e.g., 1000 tokens)
+    // Fund the staking contract with rewards 
     await token.transfer(await staking.getAddress(), ethers.parseUnits("1000", 18));
 
     // Fund user with tokens
@@ -29,10 +29,9 @@ describe("Staking", () => {
     // Unstake
     await staking.connect(user).unstake();
 
-    // Check balance (100 + reward ≈ 100.8219 tokens)
     const balance = await token.balanceOf(user.address);
     expect(balance).to.be.closeTo(
-      ethers.parseUnits("1000.8219", 18), // Original 1000 - staked 100 + 100.8219
+      ethers.parseUnits("1000.8219", 18),
       ethers.parseUnits("0.1", 18)
     );
   });
