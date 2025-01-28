@@ -2,8 +2,10 @@
   "name": "x1coin-assignment",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+"scripts": {
+    "test": "npx hardhat test",
+    "test:report": "npx hardhat test --network hardhat",
+    "clean:reports": "rimraf test-results"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +16,8 @@
     "@openzeppelin/contracts": "^5.2.0",
     "@openzeppelin/contracts-upgradeable": "^5.2.0",
     "dotenv": "^16.4.7",
-    "hardhat": "^2.22.18"
+    "hardhat": "^2.22.18",
+    "mochawesome": "^7.1.3",
+    "mochawesome-report-generator": "^6.2.0"
   }
 }
