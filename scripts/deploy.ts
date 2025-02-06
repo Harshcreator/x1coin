@@ -7,10 +7,13 @@ async function main() {
   // Deploy X1Coin
   const X1Coin = await ethers.getContractFactory("X1Coin");
   const token = await X1Coin.deploy();
+
+  // Use deployer's address as a placeholder for community fund
+  const communityFund = deployer.address;
   
   // Deploy TokenDistributor
   const TokenDistributor = await ethers.getContractFactory("TokenDistributor");
-  const distributor = await TokenDistributor.deploy(await token.getAddress());
+  const distributor = await TokenDistributor.deploy(await token.getAddress(), communityFund);
 
   // Approve the distributor to spend deployer's tokens
   await token.approve(
@@ -19,12 +22,9 @@ async function main() {
   );
 
   // Cast to proper type and call distribute()
-  const distributorWithSigner = await ethers.getContractAt(
-    "TokenDistributor",
-    await distributor.getAddress(),
-    deployer
-  );
+  const distributorWithSigner = distributor.connect(deployer);
   await distributorWithSigner.distribute();
+
 
   // Deploy Staking
   const Staking = await ethers.getContractFactory("Staking");

@@ -69,7 +69,7 @@ This repository contains the smart contracts and tests for X1Coin, an ERC-20 tok
 
 6. Deploy contracts:
    ```bash
-    npx hardhat run scripts/deploy.js
+    npx hardhat run scripts/deploy.ts
    ```
 ---
 
