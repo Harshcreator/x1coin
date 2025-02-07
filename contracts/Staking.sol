@@ -21,6 +21,16 @@ contract Staking is ReentrancyGuard {
         token = IERC20(_tokenAddress);
     }
 
+    modifier hasSufficientBalance(uint256 _amount) {
+        uint256 reward = (_amount * REWARD_RATE * LOCK_DURATION) / (365 days * 100);
+        require(token.balanceOf(address(this)) >= _amount + reward, "Insufficient contract balance");
+        _;
+    }
+
+    function fundContract(uint256 _amount) external {
+        token.transferFrom(msg.sender, address(this), _amount);
+    }
+
     function stake(uint256 _amount) external {
         token.transferFrom(msg.sender, address(this), _amount);
         stakes[msg.sender] = Stake({

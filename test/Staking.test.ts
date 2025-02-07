@@ -32,14 +32,17 @@ describe("Staking", () => {
     await network.provider.send("evm_mine");
     console.log("Time elapsed: 30 days");
 
+    // Unstake tokens
     await staking.connect(user).unstake();
     const finalBalance = await token.balanceOf(user.address);
     console.log("Final User Balance:", ethers.formatUnits(finalBalance, 18));
-    console.log("Total Rewards:", ethers.formatUnits(finalBalance - (ethers.parseUnits("900", 18)), 18));
 
-    expect(finalBalance).to.be.closeTo(
-      ethers.parseUnits("1000.8219", 18),
-      ethers.parseUnits("0.1", 18)
-    );
+    // Calculate expected reward
+    const reward = (ethers.parseUnits("100", 18) * 10n * BigInt(THIRTY_DAYS)) / BigInt(365 * 24 * 60 * 60 * 100);
+    const expectedBalance = ethers.parseUnits("1000", 18) - ethers.parseUnits("100", 18) + ethers.parseUnits("100", 18) + reward;
+
+    console.log("Total Rewards:", ethers.formatUnits(reward, 18));
+
+    expect(finalBalance).to.be.closeTo(expectedBalance, ethers.parseUnits("0.1", 18));
   });
 });
