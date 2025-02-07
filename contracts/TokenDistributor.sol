@@ -25,9 +25,10 @@ contract TokenDistributor {
             uint64(block.timestamp),    
             180 days                               
         )); 
+        distribute(); // Automatically distribute tokens upon deployment
     }
 
-    function distribute() external {
+    function distribute() public {
         require(msg.sender == owner, "Only owner can distribute");
 
         // Public Sale (50%)
