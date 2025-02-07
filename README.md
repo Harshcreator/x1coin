@@ -24,6 +24,7 @@ This repository contains the smart contracts and tests for X1Coin, an ERC-20 tok
   - 20% Community Development
 - Uses OpenZeppelin's `VestingWallet` for team allocation
 - Secure `transferFrom` mechanism for token distribution
+- Multi-signature approval for distribution
 
 ### 3. Staking System
 - Users can stake/unstake X1Coin
@@ -88,6 +89,7 @@ This repository contains the smart contracts and tests for X1Coin, an ERC-20 tok
     - Distributes tokens to team, advisors, and community
     - Uses OpenZeppelin's `VestingWallet` for team allocation
     - Secure `transferFrom` mechanism for token distribution
+    - Multi-signature approval for distribution
     - Requires explicit approval before distribution
 
 3. **Staking.sol**
