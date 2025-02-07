@@ -35,7 +35,7 @@ describe("Staking", () => {
     await staking.connect(user).unstake();
     const finalBalance = await token.balanceOf(user.address);
     console.log("Final User Balance:", ethers.formatUnits(finalBalance, 18));
-    console.log("Total Rewards:", ethers.formatUnits(finalBalance - (ethers.parseUnits("1000", 18)), 18));
+    console.log("Total Rewards:", ethers.formatUnits(finalBalance - (ethers.parseUnits("900", 18)), 18));
 
     expect(finalBalance).to.be.closeTo(
       ethers.parseUnits("1000.8219", 18),
