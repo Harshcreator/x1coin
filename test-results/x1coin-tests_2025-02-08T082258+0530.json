@@ -1,0 +1,224 @@
+{
+  "stats": {
+    "suites": 3,
+    "tests": 4,
+    "passes": 4,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-02-08T02:52:57.471Z",
+    "end": "2025-02-08T02:52:58.787Z",
+    "duration": 1316,
+    "testsRegistered": 4,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "7825bfd5-9890-40fa-9dc6-415dd35f3bda",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "56dcaad8-bf5e-4834-9264-5bcc7fe87293",
+          "title": "Staking",
+          "fullFile": "C:\\Projects\\x1coin\\test\\Staking.test.ts",
+          "file": "\\test\\Staking.test.ts",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Should stake and unstake with rewards",
+              "fullTitle": "Staking Should stake and unstake with rewards",
+              "timedOut": false,
+              "duration": 1201,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const [owner, user] = await hardhat_1.ethers.getSigners();\n// Deploy contracts\nconst X1Coin = await hardhat_1.ethers.getContractFactory(\"X1Coin\");\nconst token = await X1Coin.deploy();\nconst Staking = await hardhat_1.ethers.getContractFactory(\"Staking\");\nconst staking = await Staking.deploy(await token.getAddress());\n// Fund the staking contract with rewards \nawait token.transfer(await staking.getAddress(), hardhat_1.ethers.parseUnits(\"1000\", 18));\nconsole.log(\"Staking Contract Balance:\", hardhat_1.ethers.formatUnits(await token.balanceOf(await staking.getAddress()), 18));\n// Fund user with tokens\nawait token.transfer(user.address, hardhat_1.ethers.parseUnits(\"1000\", 18));\nconsole.log(\"Initial User Balance:\", hardhat_1.ethers.formatUnits(await token.balanceOf(user.address), 18));\nawait token.connect(user).approve(await staking.getAddress(), hardhat_1.ethers.parseUnits(\"1000\", 18));\n// Stake 100 tokens\nawait staking.connect(user).stake(hardhat_1.ethers.parseUnits(\"100\", 18));\nconsole.log(\"Staked Amount:\", hardhat_1.ethers.formatUnits(hardhat_1.ethers.parseUnits(\"100\", 18), 18));\nconsole.log(\"User Balance After Stake:\", hardhat_1.ethers.formatUnits(await token.balanceOf(user.address), 18));\nconst THIRTY_DAYS = 30 * 24 * 60 * 60;\nawait hardhat_1.network.provider.send(\"evm_increaseTime\", [THIRTY_DAYS]);\nawait hardhat_1.network.provider.send(\"evm_mine\");\nconsole.log(\"Time elapsed: 30 days\");\n// Unstake tokens\nawait staking.connect(user).unstake();\nconst finalBalance = await token.balanceOf(user.address);\nconsole.log(\"Final User Balance:\", hardhat_1.ethers.formatUnits(finalBalance, 18));\n// Calculate expected reward\nconst reward = (hardhat_1.ethers.parseUnits(\"100\", 18) * 10n * BigInt(THIRTY_DAYS)) / BigInt(365 * 24 * 60 * 60 * 100);\nconst expectedBalance = hardhat_1.ethers.parseUnits(\"1000\", 18) - hardhat_1.ethers.parseUnits(\"100\", 18) + hardhat_1.ethers.parseUnits(\"100\", 18) + reward;\nconsole.log(\"Total Rewards:\", hardhat_1.ethers.formatUnits(reward, 18));\n(0, chai_1.expect)(finalBalance).to.be.closeTo(expectedBalance, hardhat_1.ethers.parseUnits(\"0.1\", 18));",
+              "err": {},
+              "uuid": "f93e997b-1428-44c6-bab8-579e9e95b13d",
+              "parentUUID": "56dcaad8-bf5e-4834-9264-5bcc7fe87293",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "f93e997b-1428-44c6-bab8-579e9e95b13d"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 1201,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 40000
+        },
+        {
+          "uuid": "0697a315-df0a-4c80-9f95-7fad5948a02b",
+          "title": "Token Distribution",
+          "fullFile": "C:\\Projects\\x1coin\\test\\TokenDistributor.test.ts",
+          "file": "\\test\\TokenDistributor.test.ts",
+          "beforeHooks": [
+            {
+              "title": "\"before all\" hook in \"Token Distribution\"",
+              "fullTitle": "Token Distribution \"before all\" hook in \"Token Distribution\"",
+              "timedOut": false,
+              "duration": 51,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "[owner, publicSale, communityFund, signer1, signer2] = await hardhat_1.ethers.getSigners();\nconst X1Coin = await hardhat_1.ethers.getContractFactory(\"X1Coin\");\nconst TokenDistributor = await hardhat_1.ethers.getContractFactory(\"TokenDistributor\");\ntoken = await X1Coin.deploy();\nawait token.waitForDeployment();\ndistributor = await TokenDistributor.deploy(await token.getAddress(), communityFund.address, publicSale.address, [signer1.address, signer2.address], REQUIRED_SIGNATURES);\nawait distributor.waitForDeployment();\n// Approve the distributor to spend owner's tokens\nawait token.approve(distributor.getAddress(), TOTAL_SUPPLY);",
+              "err": {},
+              "uuid": "4dc82daa-1e2c-4c20-8664-179b8fcc8101",
+              "parentUUID": "0697a315-df0a-4c80-9f95-7fad5948a02b",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Should distribute tokens correctly",
+              "fullTitle": "Token Distribution Should distribute tokens correctly",
+              "timedOut": false,
+              "duration": 9,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Signers approve the distribution\nawait distributor.connect(signer1).distribute();\nawait distributor.connect(signer2).distribute();\n// Check Public Sale balance\nconst publicSaleBalance = await token.balanceOf(publicSale.address);\n(0, chai_1.expect)(publicSaleBalance).to.equal(PUBLIC_SALE);\n// Check Team Vesting balance\nconst vestingBalance = await token.balanceOf(await distributor.teamVestingWallet());\n(0, chai_1.expect)(vestingBalance).to.equal(TEAM_ALLOCATION);\n// Check Community Fund balance\nconst communityBalance = await token.balanceOf(communityFund.address);\n(0, chai_1.expect)(communityBalance).to.equal(COMMUNITY_ALLOCATION);",
+              "err": {},
+              "uuid": "1dbaf00d-5188-471e-b087-82ca8b49866c",
+              "parentUUID": "0697a315-df0a-4c80-9f95-7fad5948a02b",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Should lock and release team tokens",
+              "fullTitle": "Token Distribution Should lock and release team tokens",
+              "timedOut": false,
+              "duration": 22,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const [owner] = await hardhat_1.ethers.getSigners();\n// Get vesting wallet contract with explicit function signature\nconst vestingWallet = await hardhat_1.ethers.getContractAt(\"VestingWallet\", await distributor.teamVestingWallet(), owner);\n// Check initial balances\nconst initialOwnerBalance = await token.balanceOf(owner.address);\nconst initialVestingBalance = await token.balanceOf(vestingWallet.getAddress());\nconst initialCommunityBalance = await token.balanceOf(communityFund);\nconsole.log(\"Initial Owner Balance:\", initialOwnerBalance.toString());\nconsole.log(\"Initial Vesting Balance:\", initialVestingBalance.toString());\nconsole.log(\"Initial Community Balance:\", initialCommunityBalance.toString());\n// Verify initial balances\n(0, chai_1.expect)(initialOwnerBalance).to.equal(0);\n(0, chai_1.expect)(initialVestingBalance).to.equal(TEAM_ALLOCATION);\n(0, chai_1.expect)(initialCommunityBalance).to.equal(COMMUNITY_ALLOCATION);\n// Fast-forward 180 days to ensure complete vesting\nconst SIX_MONTHS = 180 * 24 * 60 * 60;\nawait hardhat_1.network.provider.send(\"evm_increaseTime\", [SIX_MONTHS]);\nawait hardhat_1.network.provider.send(\"evm_mine\");\n// Release tokens after full vesting period\nawait vestingWallet.getFunction(\"release(address)\")(await token.getAddress());\n// Verify final balances\nconst finalOwnerBalance = await token.balanceOf(owner.address);\nconst finalVestingBalance = await token.balanceOf(vestingWallet.getAddress());\nconsole.log(\"Final Owner Balance:\", finalOwnerBalance.toString());\nconsole.log(\"Final Vesting Balance:\", finalVestingBalance.toString());\n// Owner should now have the team's 300M tokens\n(0, chai_1.expect)(finalOwnerBalance).to.equal(TEAM_ALLOCATION);\n(0, chai_1.expect)(finalVestingBalance).to.equal(0);",
+              "err": {},
+              "uuid": "165994ca-fd40-4547-bac7-8d3c99791d64",
+              "parentUUID": "0697a315-df0a-4c80-9f95-7fad5948a02b",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "1dbaf00d-5188-471e-b087-82ca8b49866c",
+            "165994ca-fd40-4547-bac7-8d3c99791d64"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 31,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 40000
+        },
+        {
+          "uuid": "9f72c935-3405-4f20-9d3a-864c83263c69",
+          "title": "X1Coin",
+          "fullFile": "C:\\Projects\\x1coin\\test\\X1Coin.test.ts",
+          "file": "\\test\\X1Coin.test.ts",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Should deploy with 1B supply",
+              "fullTitle": "X1Coin Should deploy with 1B supply",
+              "timedOut": false,
+              "duration": 21,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const X1Coin = await hardhat_1.ethers.getContractFactory(\"X1Coin\");\nconst token = await X1Coin.deploy();\nconsole.log(\"X1Coin deployed to:\", await token.getAddress());\n// Log token metadata\nconsole.log(\"Token Name:\", await token.name());\nconsole.log(\"Token Symbol:\", await token.symbol());\nconsole.log(\"Token Decimals:\", await token.decimals());\n// Log supply info\nconst totalSupply = await token.totalSupply();\nconsole.log(\"Total Supply (raw):\", totalSupply.toString());\nconsole.log(\"Total Supply (formatted):\", hardhat_1.ethers.formatUnits(totalSupply, 18));\n// Verify supply\n(0, chai_1.expect)(totalSupply).to.equal(hardhat_1.ethers.parseUnits(\"1000000000\", 18));",
+              "err": {},
+              "uuid": "72480e0c-929a-4db9-bb1f-b7f6044f92d4",
+              "parentUUID": "9f72c935-3405-4f20-9d3a-864c83263c69",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "72480e0c-929a-4db9-bb1f-b7f6044f92d4"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 21,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 40000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 40000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "10.8.2"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "x1coin-tests",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "./test-results",
+        "reportFilename": "x1coin-tests",
+        "overwrite": true,
+        "html": true,
+        "json": true,
+        "quiet": false,
+        "timestamp": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}
